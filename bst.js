@@ -11,13 +11,39 @@ class Tree {
     this.root = buildTree(array);
   }
 
-  includes(val) {
+  includes(value) {
     let node = this.root;
     while (node) {
-      if (val === node.data) return true;
-      node = val > node.data ? node.right : node.left;
+      if (value === node.data) return true;
+      node = value > node.data ? node.right : node.left;
     }
     return false;
+  }
+
+  insert(value) {
+    if (!this.root) {
+      this.root = new Node(value);
+      return;
+    }
+
+    let node = this.root;
+
+    while (node) {
+      if (value === node.data) return;
+      if (value < node.data) {
+        if (!node.left) {
+          node.left = new Node(value);
+          return;
+        }
+        node = node.left;
+      } else {
+        if (!node.right) {
+          node.right = new Node(value);
+          return;
+        }
+        node = node.right;
+      }
+    }
   }
 }
 
@@ -55,5 +81,20 @@ function buildTree(array, startIndex, endIndex) {
   return rootNode;
 }
 
+// tree structure visualizer
+const prettyPrint = (node, prefix = "", isLeft = true) => {
+  if (node === null || node === undefined) {
+    return;
+  }
+
+  prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+  prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+};
+
 // unsorted test array
 const arr = [2, 5, 1, 9, 17, 20, 4, 4, 20, 22];
+
+const tree = new Tree(arr);
+
+prettyPrint(tree.root);
