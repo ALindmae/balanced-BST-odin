@@ -10,6 +10,15 @@ class Tree {
   constructor(array) {
     this.root = buildTree(array);
   }
+
+  includes(val) {
+    let node = this.root;
+    while (node) {
+      if (val === node.data) return true;
+      node = val > node.data ? node.right : node.left;
+    }
+    return false;
+  }
 }
 
 function buildTree(array, startIndex, endIndex) {
