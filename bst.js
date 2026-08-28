@@ -78,6 +78,41 @@ class Tree {
     }
     this.root = deleteNode(this.root, value);
   }
+
+  // levelOrderForEach iterative implementation
+  levelOrderForEach(callback) {
+    if (typeof callback !== "function") {
+      throw new Error("A callbackfunction is required");
+    }
+    const queue = [];
+
+    queue.push(this.root);
+    while (queue.length !== 0) {
+      let current = queue[0];
+      callback(current.data);
+      if (current.left) queue.push(current.left);
+      if (current.right) queue.push(current.right);
+      queue.shift();
+    }
+  }
+
+  // levelOrderForEach recursive implementation
+  levelOrderForEachRec(callback, queue = [this.root]) {
+    if (typeof callback !== "function") {
+      throw new Error("A callback function is required");
+    }
+
+    if (!this.root || queue.length === 0) return;
+
+    let current = queue[0];
+    callback(current.data);
+    queue.shift();
+
+    if (current.left) queue.push(current.left);
+    if (current.right) queue.push(current.right);
+
+    this.levelOrderForEachRec(callback, queue);
+  }
 }
 
 function buildTree(array, startIndex, endIndex) {
@@ -129,3 +164,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const arr = [2, 5, 1, 9, 17, 20, 4, 4, 20, 22, 23, 30, 3, 14, 50];
 
 const tree = new Tree(arr);
+
+prettyPrint(tree.root);
+
+tree.levelOrderForEachRec(console.log);
