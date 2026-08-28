@@ -45,6 +45,39 @@ class Tree {
       }
     }
   }
+
+  deleteItem(value) {
+    function getSuccessor(curr) {
+      curr = curr.right;
+      while (curr?.left) {
+        curr = curr.left;
+      }
+      return curr;
+    }
+
+    function deleteNode(root, targetValue) {
+      if (root === null) return root;
+      if (targetValue < root.data) {
+        root.left = deleteNode(root.left, targetValue);
+      }
+      if (targetValue > root.data) {
+        root.right = deleteNode(root.right, targetValue);
+      } else {
+        if (root.left === null) {
+          return root.right;
+        }
+        if (root.right === null) {
+          return root.left;
+        }
+
+        const successor = getSuccessor(root);
+        root.data = successor.data;
+        root.right = deleteNode(root.right, successor.data);
+      }
+      return root;
+    }
+    this.root = deleteNode(this.root, value);
+  }
 }
 
 function buildTree(array, startIndex, endIndex) {
@@ -93,8 +126,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 // unsorted test array
-const arr = [2, 5, 1, 9, 17, 20, 4, 4, 20, 22];
+const arr = [2, 5, 1, 9, 17, 20, 4, 4, 20, 22, 23, 30, 3, 14, 50];
 
 const tree = new Tree(arr);
-
-prettyPrint(tree.root);
