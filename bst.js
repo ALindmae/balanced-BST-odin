@@ -113,6 +113,17 @@ class Tree {
 
     this.levelOrderForEachRec(callback, queue);
   }
+
+  inOrderForEach(callback, root = this.root) {
+    if (typeof callback !== "function")
+      throw new Error("A callback function is required");
+
+    if (root === null) return null;
+
+    this.inOrderForEach(callback, root.left);
+    callback(root.data);
+    this.inOrderForEach(callback, root.right);
+  }
 }
 
 function buildTree(array, startIndex, endIndex) {
@@ -164,7 +175,3 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const arr = [2, 5, 1, 9, 17, 20, 4, 4, 20, 22, 23, 30, 3, 14, 50];
 
 const tree = new Tree(arr);
-
-prettyPrint(tree.root);
-
-tree.levelOrderForEachRec(console.log);
