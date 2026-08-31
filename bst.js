@@ -124,6 +124,17 @@ class Tree {
     callback(root.data);
     this.inOrderForEach(callback, root.right);
   }
+
+  preOrderForEach(callback, root = this.root) {
+    if (typeof callback !== "function")
+      throw new Error("A callback function is required");
+
+    if (root === null) return null;
+
+    callback(root.data);
+    this.preOrderForEach(callback, root.left);
+    this.preOrderForEach(callback, root.right);
+  }
 }
 
 function buildTree(array, startIndex, endIndex) {
