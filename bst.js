@@ -146,6 +146,30 @@ class Tree {
     this.postOrderForEach(callback, root.right);
     callback(root.data);
   }
+
+  height(value) {
+    function getHeightInEdges(root) {
+      if (root === null) return -1;
+
+      let left = getHeightInEdges(root.left) + 1;
+      let right = getHeightInEdges(root.right) + 1;
+
+      if (left < right) return right;
+      else return left;
+    }
+
+    let current = this.root;
+
+    while (current) {
+      if (value === current.data) {
+        return getHeightInEdges(current);
+      }
+      if (value < current.data) {
+        current = current.left;
+      } else current = current.right;
+    }
+    return undefined;
+  }
 }
 
 function buildTree(array, startIndex, endIndex) {
