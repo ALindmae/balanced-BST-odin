@@ -170,6 +170,17 @@ class Tree {
     }
     return undefined;
   }
+
+  depth(value, root = this.root) {
+    if (root === null) return undefined;
+    if (root.data === value) return 0;
+    const depth =
+      value < root.data
+        ? this.depth(value, root.left)
+        : this.depth(value, root.right);
+
+    return depth === undefined ? undefined : depth + 1;
+  }
 }
 
 function buildTree(array, startIndex, endIndex) {
