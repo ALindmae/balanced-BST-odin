@@ -6,7 +6,7 @@ class Node {
   }
 }
 
-class Tree {
+export class Tree {
   constructor(array) {
     this.root = buildTree(array);
   }
@@ -258,8 +258,3 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
   prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
 };
-
-// unsorted test array
-const arr = [2, 5, 1, 9, 17, 20, 4, 4, 20, 22, 23, 30, 3, 14, 50];
-
-const tree = new Tree(arr);
