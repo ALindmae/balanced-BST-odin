@@ -12,17 +12,40 @@ function randomArray() {
   return array;
 }
 
-// tree structure visualizer
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-  if (node === null || node === undefined) {
-    return;
-  }
-
-  prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-  prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-};
-
 const tree = new Tree(randomArray());
 
 console.log(tree.isBalanced());
+
+console.log("print preOrderForEach values:");
+tree.preOrderForEach(console.log);
+
+console.log("print levelOrderForEach values:");
+tree.levelOrderForEachRec(console.log);
+
+console.log("print inOrderForEach values:");
+tree.inOrderForEach(console.log);
+
+console.log("print postOrderForEach values:");
+tree.postOrderForEach(console.log);
+
+tree.insert(102);
+tree.insert(110);
+tree.insert(120);
+
+console.log(tree.isBalanced());
+
+tree.reBalance();
+
+console.log(tree.isBalanced());
+
+console.log("print preOrderForEach values:");
+tree.preOrderForEach(console.log);
+
+console.log("print levelOrderForEach values:");
+tree.levelOrderForEachRec(console.log);
+
+console.log("print inOrderForEach values:");
+tree.inOrderForEach(console.log);
+
+console.log("print postOrderForEach values:");
+tree.postOrderForEach(console.log);
