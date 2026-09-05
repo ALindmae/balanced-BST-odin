@@ -203,6 +203,15 @@ class Tree {
       balanced: balanced,
     };
   }
+
+  reBalance() {
+    const values = [];
+    this.inOrderForEach((value) => {
+      values.push(value);
+    });
+
+    this.root = buildTree(values);
+  }
 }
 
 function buildTree(array, startIndex, endIndex) {
