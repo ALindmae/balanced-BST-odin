@@ -181,6 +181,28 @@ class Tree {
 
     return depth === undefined ? undefined : depth + 1;
   }
+
+  isBalanced(root = this.root) {
+    if (root === null) return { height: -1, balanced: true };
+
+    const left = this.isBalanced(root.left);
+    const right = this.isBalanced(root.right);
+
+    const leftHeight = left.height + 1;
+    const rightHeight = right.height + 1;
+
+    // The tree is balanced if both subtrees are balanced
+    // and their heights differ by no more than 1.
+    const balanced =
+      left.balanced &&
+      right.balanced &&
+      Math.abs(leftHeight - rightHeight) <= 1;
+
+    return {
+      height: Math.max(leftHeight, rightHeight),
+      balanced: balanced,
+    };
+  }
 }
 
 function buildTree(array, startIndex, endIndex) {
