@@ -34,7 +34,7 @@ tree.insert(120);
 
 console.log(tree.isBalanced());
 
-tree.reBalance();
+tree.rebalance();
 
 console.log(tree.isBalanced());
 

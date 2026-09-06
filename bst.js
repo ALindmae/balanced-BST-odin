@@ -59,8 +59,7 @@ export class Tree {
       if (root === null) return root;
       if (targetValue < root.data) {
         root.left = deleteNode(root.left, targetValue);
-      }
-      if (targetValue > root.data) {
+      } else if (targetValue > root.data) {
         root.right = deleteNode(root.right, targetValue);
       } else {
         if (root.left === null) {
@@ -84,6 +83,9 @@ export class Tree {
     if (typeof callback !== "function") {
       throw new Error("A callbackfunction is required");
     }
+
+    if (this.root === null) return;
+
     const queue = [];
 
     queue.push(this.root);
@@ -118,7 +120,7 @@ export class Tree {
     if (typeof callback !== "function")
       throw new Error("A callback function is required");
 
-    if (root === null) return null;
+    if (root === null) return;
 
     this.inOrderForEach(callback, root.left);
     callback(root.data);
@@ -182,29 +184,32 @@ export class Tree {
     return depth === undefined ? undefined : depth + 1;
   }
 
-  isBalanced(root = this.root) {
-    if (root === null) return { height: -1, balanced: true };
+  isBalanced() {
+    function checkBalance(root) {
+      if (root === null) return { height: -1, balanced: true };
 
-    const left = this.isBalanced(root.left);
-    const right = this.isBalanced(root.right);
+      const left = checkBalance(root.left);
+      const right = checkBalance(root.right);
 
-    const leftHeight = left.height + 1;
-    const rightHeight = right.height + 1;
+      const leftHeight = left.height + 1;
+      const rightHeight = right.height + 1;
 
-    // The tree is balanced if both subtrees are balanced
-    // and their heights differ by no more than 1.
-    const balanced =
-      left.balanced &&
-      right.balanced &&
-      Math.abs(leftHeight - rightHeight) <= 1;
+      // The tree is balanced if both subtrees are balanced
+      // and their heights differ by no more than 1.
+      const balanced =
+        left.balanced &&
+        right.balanced &&
+        Math.abs(leftHeight - rightHeight) <= 1;
 
-    return {
-      height: Math.max(leftHeight, rightHeight),
-      balanced: balanced,
-    };
+      return {
+        height: Math.max(leftHeight, rightHeight),
+        balanced: balanced,
+      };
+    }
+    return checkBalance(this.root).balanced;
   }
 
-  reBalance() {
+  rebalance() {
     const values = [];
     this.inOrderForEach((value) => {
       values.push(value);
@@ -247,14 +252,3 @@ function buildTree(array, startIndex, endIndex) {
 
   return rootNode;
 }
-
-// tree structure visualizer
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-  if (node === null || node === undefined) {
-    return;
-  }
-
-  prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-  prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-};
